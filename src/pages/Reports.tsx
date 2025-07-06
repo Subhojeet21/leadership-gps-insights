@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
-import { Download, Calendar, TrendingUp, Users, FileText, BarChart3, Target, Award } from 'lucide-react';
+import { Download, Calendar, TrendingUp, Users, FileText, BarChart3, Target, Award, Brain } from 'lucide-react';
+import { AIPersonalizedFeedbackReport } from '@/components/AIPersonalizedFeedbackReport';
 
 const performanceData = [
   { month: 'Jan', score: 85, feedback: 24, sessions: 12 },
@@ -47,6 +48,14 @@ export default function Reports() {
       icon: BarChart3,
       color: 'from-green-500 to-emerald-500',
       component: <PerformanceAnalysisReport />
+    },
+    {
+      id: 'ai-personalized-feedback',
+      title: 'AI Personalized Feedback',
+      description: 'AI-generated personalized feedback recommendations for each team member',
+      icon: Brain,
+      color: 'from-indigo-500 to-purple-500',
+      component: <AIPersonalizedFeedbackReport />
     },
     {
       id: 'growth-recommendations',
