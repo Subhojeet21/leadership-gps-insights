@@ -8,6 +8,9 @@ import { Search, Plus, Edit, Eye, Users } from 'lucide-react';
 import { TeamMemberCard } from '@/components/TeamMemberCard';
 import { TeamMemberProfileModal } from '@/components/TeamMemberProfileModal';
 import { AddMemberModal } from '@/components/AddMemberModal';
+import { RecognitionModal } from '@/components/shared/RecognitionModal';
+import { QuickScheduleModal } from '@/components/shared/QuickScheduleModal';
+import { useTeamActions } from '@/hooks/useTeamActions';
 
 export interface TeamMember {
   id: string;
@@ -107,6 +110,14 @@ export function TeamProfiles() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'view' | 'edit'>('view');
+  const {
+    activeModal,
+    selectedMember: actionMember,
+    handleFeedback,
+    handleSchedule1on1,
+    handleSendRecognition,
+    closeModal
+  } = useTeamActions();
 
   const filteredMembers = teamMembers.filter(member =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -172,6 +183,9 @@ export function TeamProfiles() {
                 member={member}
                 onView={() => handleViewProfile(member)}
                 onEdit={() => handleEditProfile(member)}
+                onFeedback={handleFeedback}
+                onSchedule1on1={handleSchedule1on1}
+                onSendRecognition={handleSendRecognition}
               />
             ))}
           </div>
@@ -189,6 +203,18 @@ export function TeamProfiles() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSave={handleSaveNewMember}
+      />
+
+      <RecognitionModal
+        isOpen={activeModal === 'recognition'}
+        onClose={closeModal}
+        member={actionMember}
+      />
+
+      <QuickScheduleModal
+        isOpen={activeModal === 'schedule'}
+        onClose={closeModal}
+        member={actionMember}
       />
     </div>
   );

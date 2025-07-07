@@ -8,6 +8,10 @@ import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { TeamMemberActionBar } from '@/components/shared/TeamMemberActionBar';
+import { RecognitionModal } from '@/components/shared/RecognitionModal';
+import { QuickScheduleModal } from '@/components/shared/QuickScheduleModal';
+import { useTeamActions } from '@/hooks/useTeamActions';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   MessageSquare, 
@@ -34,10 +38,17 @@ import { TeamProfiles } from '@/components/TeamProfiles';
 
 export default function TeamFeedback() {
   const navigate = useNavigate();
-  const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [selectedMember, setSelectedMember] = useState<any>(null);
   const [feedbackText, setFeedbackText] = useState('');
   const [feedbackRating, setFeedbackRating] = useState('');
+  const {
+    activeModal,
+    selectedMember,
+    handleFeedback,
+    handleSchedule1on1,
+    handleSendRecognition,
+    handleViewProfile,
+    closeModal
+  } = useTeamActions();
 
   // Mock data - would be fetched from API
   const teamMembers = [
@@ -134,17 +145,11 @@ export default function TeamFeedback() {
     }
   };
 
-  const handleQuickFeedback = (member: any) => {
-    setSelectedMember(member);
-    setActiveModal('feedback');
-  };
-
   const handleSubmitFeedback = () => {
     console.log('Feedback submitted for', selectedMember?.name, feedbackText, feedbackRating);
-    setActiveModal(null);
+    closeModal();
     setFeedbackText('');
     setFeedbackRating('');
-    setSelectedMember(null);
   };
 
   return (
@@ -259,16 +264,6 @@ export default function TeamFeedback() {
               <FileText className="h-4 w-4 mr-2" />
               Generate Report
             </Button>
-
-            <Button variant="outline">
-              <Calendar className="h-4 w-4 mr-2" />
-              Schedule 1:1s
-            </Button>
-
-            <Button variant="outline">
-              <Award className="h-4 w-4 mr-2" />
-              Send Recognition
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -359,17 +354,14 @@ export default function TeamFeedback() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Button size="sm" variant="outline" onClick={() => handleQuickFeedback(member)}>
-                      <MessageSquare className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="outline">
-                      <Calendar className="h-4 w-4" />
-                    </Button>
-                    <Button size="sm" variant="outline">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </div>
+                  <TeamMemberActionBar
+                    member={member}
+                    onFeedback={handleFeedback}
+                    onSchedule1on1={handleSchedule1on1}
+                    onSendRecognition={handleSendRecognition}
+                    onViewProfile={handleViewProfile}
+                    size="sm"
+                  />
                 </div>
               ))}
             </CardContent>
@@ -438,8 +430,8 @@ export default function TeamFeedback() {
         </div>
       </div>
 
-      {/* Quick Feedback Modal */}
-      <Dialog open={activeModal === 'feedback'} onOpenChange={() => setActiveModal(null)}>
+      {/* Modals */}
+      <Dialog open={activeModal === 'feedback'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Quick Feedback for {selectedMember?.name}</DialogTitle>
@@ -474,13 +466,25 @@ export default function TeamFeedback() {
                 <Send className="h-4 w-4 mr-2" />
                 Submit Feedback
               </Button>
-              <Button variant="outline" onClick={() => setActiveModal(null)}>
+              <Button variant="outline" onClick={closeModal}>
                 Cancel
               </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
+
+      <RecognitionModal
+        isOpen={activeModal === 'recognition'}
+        onClose={closeModal}
+        member={selectedMember}
+      />
+
+      <QuickScheduleModal
+        isOpen={activeModal === 'schedule'}
+        onClose={closeModal}
+        member={selectedMember}
+      />
     </div>
   );
 }

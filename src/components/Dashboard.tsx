@@ -8,8 +8,12 @@ import { TeamOverview } from '@/components/TeamOverview';
 import { FeedbackTrends } from '@/components/FeedbackTrends';
 import { ActionItems } from '@/components/ActionItems';
 import { SmartNudges } from '@/components/SmartNudges';
+import { TeamMemberActionBar } from '@/components/shared/TeamMemberActionBar';
+import { RecognitionModal } from '@/components/shared/RecognitionModal';
+import { QuickScheduleModal } from '@/components/shared/QuickScheduleModal';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useTeamActions } from '@/hooks/useTeamActions';
 import { 
   Calendar, 
   MessageSquare, 
@@ -33,6 +37,15 @@ export function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
+  const {
+    activeModal,
+    selectedMember,
+    handleFeedback,
+    handleSchedule1on1,
+    handleSendRecognition,
+    handleViewProfile,
+    closeModal
+  } = useTeamActions();
 
   const quickActions = [
     { 
@@ -230,16 +243,15 @@ export function Dashboard() {
                   )}
                 </div>
 
-                <div className="flex space-x-1 mt-3">
-                  <Button size="sm" variant="outline" className="h-7 px-2 text-xs">
-                    <MessageSquare className="h-3 w-3" />
-                  </Button>
-                  <Button size="sm" variant="outline" className="h-7 px-2 text-xs">
-                    <Calendar className="h-3 w-3" />
-                  </Button>
-                  <Button size="sm" variant="outline" className="h-7 px-2 text-xs">
-                    <Target className="h-3 w-3" />
-                  </Button>
+                <div className="mt-3">
+                  <TeamMemberActionBar
+                    member={member}
+                    onFeedback={handleFeedback}
+                    onSchedule1on1={handleSchedule1on1}
+                    onSendRecognition={handleSendRecognition}
+                    onViewProfile={handleViewProfile}
+                    size="sm"
+                  />
                 </div>
               </div>
             ))}
@@ -262,14 +274,14 @@ export function Dashboard() {
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <span className="text-sm">Alex needs a check-in - performance dip detected</span>
               </div>
-              <Button size="sm" variant="outline">Schedule Now</Button>
+              <Button size="sm" variant="outline" onClick={() => handleSchedule1on1({ name: 'Alex Chen', id: 1 })}>Schedule Now</Button>
             </div>
             <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="text-sm">Sarah completed major milestone - send congratulations</span>
               </div>
-              <Button size="sm" variant="outline">Send Praise</Button>
+              <Button size="sm" variant="outline" onClick={() => handleSendRecognition({ name: 'Sarah Johnson', id: 2 })}>Send Praise</Button>
             </div>
             <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
               <div className="flex items-center space-x-3">
@@ -293,6 +305,19 @@ export function Dashboard() {
           <SmartNudges />
         </div>
       </div>
+
+      {/* Shared Modals */}
+      <RecognitionModal
+        isOpen={activeModal === 'recognition'}
+        onClose={closeModal}
+        member={selectedMember}
+      />
+
+      <QuickScheduleModal
+        isOpen={activeModal === 'schedule'}
+        onClose={closeModal}
+        member={selectedMember}
+      />
     </div>
   );
 }

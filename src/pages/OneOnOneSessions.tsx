@@ -3,14 +3,9 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Clock, User, CheckCircle, AlertCircle, CalendarIcon } from 'lucide-react';
-import { Calendar as CalendarComponent } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
+import { Calendar, Clock, User, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function OneOnOneSessions() {
-  const [selectedDate, setSelectedDate] = useState<Date>();
   const [upcomingSessions, setUpcomingSessions] = useState([
     { name: "Alex Chen", date: "Today", time: "2:00 PM", type: "Regular Check-in", status: "confirmed" },
     { name: "Sarah Johnson", date: "Tomorrow", time: "10:30 AM", type: "Goal Setting", status: "pending" },
@@ -18,10 +13,12 @@ export default function OneOnOneSessions() {
   ]);
 
   const handleScheduleSession = () => {
+    // This would typically open the shared QuickScheduleModal
+    // For now, just add a placeholder session
     const newSession = {
-      name: "New Team Member",
-      date: selectedDate ? format(selectedDate, "PPP") : "TBD",
-      time: "TBD",
+      name: "Bulk Scheduled",
+      date: "TBD",
+      time: "TBD", 
       type: "Regular Check-in",
       status: "pending"
     };
@@ -104,51 +101,9 @@ export default function OneOnOneSessions() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Quick Schedule</CardTitle>
+                <CardTitle>Bulk Schedule Sessions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Team Member</label>
-                  <select className="w-full p-3 border rounded-lg">
-                    <option>Select team member...</option>
-                    <option>Alex Chen - Engineering</option>
-                    <option>Sarah Johnson - Design</option>
-                    <option>Mike Torres - Product</option>
-                    <option>Lisa Wang - Marketing</option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Date</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !selectedDate && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <CalendarComponent
-                          mode="single"
-                          selected={selectedDate}
-                          onSelect={setSelectedDate}
-                          initialFocus
-                          className={cn("p-3 pointer-events-auto")}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Time</label>
-                    <input type="time" className="w-full p-3 border rounded-lg" />
-                  </div>
-                </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Session Type</label>
                   <select className="w-full p-3 border rounded-lg">
@@ -159,7 +114,27 @@ export default function OneOnOneSessions() {
                     <option>Feedback Discussion</option>
                   </select>
                 </div>
-                <Button className="w-full" onClick={handleScheduleSession}>Schedule Session</Button>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Schedule Pattern</label>
+                  <select className="w-full p-3 border rounded-lg">
+                    <option>Weekly (same day each week)</option>
+                    <option>Bi-weekly</option>
+                    <option>Monthly</option>
+                    <option>One-time sessions</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Default Duration</label>
+                  <select className="w-full p-3 border rounded-lg">
+                    <option>30 minutes</option>
+                    <option>45 minutes</option>
+                    <option>60 minutes</option>
+                  </select>
+                </div>
+                <Button className="w-full" onClick={handleScheduleSession}>Schedule for All Team Members</Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  This will send calendar invites to all team members. You can modify individual sessions afterward.
+                </p>
               </CardContent>
             </Card>
 

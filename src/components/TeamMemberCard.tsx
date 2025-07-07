@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
+import { TeamMemberActionBar } from '@/components/shared/TeamMemberActionBar';
 import { Eye, Edit, Clock } from 'lucide-react';
 import { TeamMember } from '@/components/TeamProfiles';
 
@@ -12,9 +13,19 @@ interface TeamMemberCardProps {
   member: TeamMember;
   onView: () => void;
   onEdit: () => void;
+  onFeedback?: (member: TeamMember) => void;
+  onSchedule1on1?: (member: TeamMember) => void;
+  onSendRecognition?: (member: TeamMember) => void;
 }
 
-export function TeamMemberCard({ member, onView, onEdit }: TeamMemberCardProps) {
+export function TeamMemberCard({ 
+  member, 
+  onView, 
+  onEdit, 
+  onFeedback, 
+  onSchedule1on1, 
+  onSendRecognition 
+}: TeamMemberCardProps) {
   const getCompletionColor = (completion: number) => {
     if (completion >= 80) return 'text-green-600';
     if (completion >= 60) return 'text-yellow-600';
@@ -68,6 +79,21 @@ export function TeamMemberCard({ member, onView, onEdit }: TeamMemberCardProps) 
             Edit
           </Button>
         </div>
+
+        {/* Quick Actions */}
+        {(onFeedback || onSchedule1on1 || onSendRecognition) && (
+          <div className="pt-2 border-t">
+            <TeamMemberActionBar
+              member={member}
+              onFeedback={onFeedback || (() => {})}
+              onSchedule1on1={onSchedule1on1 || (() => {})}
+              onSendRecognition={onSendRecognition || (() => {})}
+              onViewProfile={onView}
+              size="sm"
+              showLabels={false}
+            />
+          </div>
+        )}
 
         <div className="space-y-2">
           <div className="flex flex-wrap gap-1">
