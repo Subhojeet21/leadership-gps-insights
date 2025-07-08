@@ -23,6 +23,7 @@ import ActionItemsPage from "./pages/ActionItemsPage";
 import Reports from "./pages/Reports";
 import TemplateDetails from "./pages/TemplateDetails";
 import FeedbackGiven from "./pages/FeedbackGiven";
+import ManagerToolkit from "./pages/ManagerToolkit";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ function AppContent() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/team-sentiment" element={<TeamSentiment />} />
             <Route path="/action-items" element={<ActionItemsPage />} />
+            <Route path="/manager-toolkit" element={<ManagerToolkit />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/template-details" element={<TemplateDetails />} />
             <Route path="*" element={<NotFound />} />

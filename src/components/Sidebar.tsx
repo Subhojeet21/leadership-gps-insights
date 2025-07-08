@@ -19,7 +19,8 @@ import {
   Settings, 
   Bell,
   LogOut,
-  User
+  User,
+  Brain
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -40,6 +41,11 @@ const menuItems = [
     title: "1:1 Sessions",
     icon: Calendar,
     url: "/sessions"
+  },
+  {
+    title: "Manager Toolkit",
+    icon: Brain,
+    url: "/manager-toolkit"
   },
   {
     title: "Notifications",
