@@ -33,19 +33,19 @@ const menuItems = [
     url: "/",
   },
   {
-    title: "Team Feedback",
-    icon: MessageSquare,
-    url: "/feedback"
-  },
-  {
-    title: "1:1 Sessions",
-    icon: Calendar,
-    url: "/sessions"
-  },
-  {
     title: "Manager Toolkit",
     icon: Brain,
     url: "/manager-toolkit"
+  },
+  {
+    title: "Team Profiles",
+    icon: MessageSquare,
+    url: "/team-profiles"
+  },
+  {
+    title: "Team Feedback",
+    icon: MessageSquare,
+    url: "/feedback"
   },
   {
     title: "Notifications",

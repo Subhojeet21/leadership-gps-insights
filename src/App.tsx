@@ -4,11 +4,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { TeamProvider } from "@/contexts/TeamContext";
 import { LoginForm } from "@/components/LoginForm";
 import { Header } from "@/components/Header";
 import Index from "./pages/Index";
 import TeamFeedback from "./pages/TeamFeedback";
-import OneOnOneSessions from "./pages/OneOnOneSessions";
 import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -24,6 +24,7 @@ import Reports from "./pages/Reports";
 import TemplateDetails from "./pages/TemplateDetails";
 import FeedbackGiven from "./pages/FeedbackGiven";
 import ManagerToolkit from "./pages/ManagerToolkit";
+import { TeamProfiles } from "@/components/TeamProfiles";
 
 const queryClient = new QueryClient();
 
@@ -59,13 +60,13 @@ function AppContent() {
         <main className="flex-1 overflow-hidden">
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/manager-toolkit" element={<ManagerToolkit />} />
+            <Route path="/team-profiles" element={<TeamProfiles />} />
             <Route path="/feedback" element={<TeamFeedback />} />
-            <Route path="/sessions" element={<OneOnOneSessions />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/team-sentiment" element={<TeamSentiment />} />
             <Route path="/action-items" element={<ActionItemsPage />} />
-            <Route path="/manager-toolkit" element={<ManagerToolkit />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/template-details" element={<TemplateDetails />} />
             <Route path="*" element={<NotFound />} />
@@ -82,9 +83,11 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AuthProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+        <TeamProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </TeamProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>

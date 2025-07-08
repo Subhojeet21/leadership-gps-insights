@@ -11,6 +11,7 @@ import { AddMemberModal } from '@/components/AddMemberModal';
 import { RecognitionModal } from '@/components/shared/RecognitionModal';
 import { QuickScheduleModal } from '@/components/shared/QuickScheduleModal';
 import { useTeamActions } from '@/hooks/useTeamActions';
+import { useTeam } from '@/contexts/TeamContext';
 
 export interface TeamMember {
   id: string;
@@ -104,7 +105,7 @@ const mockTeamMembers: TeamMember[] = [
 ];
 
 export function TeamProfiles() {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(mockTeamMembers);
+  const { teamMembers, addTeamMember } = useTeam();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -142,7 +143,7 @@ export function TeamProfiles() {
   };
 
   const handleSaveNewMember = (newMember: TeamMember) => {
-    setTeamMembers(prev => [...prev, newMember]);
+    addTeamMember(newMember);
   };
 
   return (
