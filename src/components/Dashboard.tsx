@@ -88,7 +88,7 @@ export function Dashboard() {
   ];
 
   return (
-    <div className="p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-8 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {user?.name || 'Manager'}!</h1>
         <p className="text-slate-600">Here's what's happening with your team today.</p>

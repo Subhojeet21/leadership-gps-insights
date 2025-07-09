@@ -25,14 +25,25 @@ import TemplateDetails from "./pages/TemplateDetails";
 import FeedbackGiven from "./pages/FeedbackGiven";
 import ManagerToolkit from "./pages/ManagerToolkit";
 import { TeamProfiles } from "@/components/TeamProfiles";
+import { NewManagerWelcome } from "@/components/onboarding/NewManagerWelcome";
+import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
+import { QuickAccessToolbar } from "@/components/navigation/QuickAccessToolbar";
+import { ContextualHelp } from "@/components/navigation/ContextualHelp";
+import { useManagerExperience } from "@/hooks/useManagerExperience";
 
 const queryClient = new QueryClient();
 
 function AppContent() {
   const { user } = useAuth();
+  const { experience, completeOnboarding } = useManagerExperience();
 
   if (!user) {
     return <LoginForm />;
+  }
+
+  // Show onboarding for new managers
+  if (user.role === 'manager' && experience.isNewManager && !experience.hasCompletedOnboarding) {
+    return <NewManagerWelcome onComplete={completeOnboarding} />;
   }
 
   // Employee users get limited access with header
@@ -58,20 +69,25 @@ function AppContent() {
       <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-blue-50">
         <Sidebar />
         <main className="flex-1 overflow-hidden">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/manager-toolkit" element={<ManagerToolkit />} />
-            <Route path="/team-profiles" element={<TeamProfiles />} />
-            <Route path="/feedback" element={<TeamFeedback />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/team-sentiment" element={<TeamSentiment />} />
-            <Route path="/action-items" element={<ActionItemsPage />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/template-details" element={<TemplateDetails />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="p-6">
+            <Breadcrumbs />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/manager-toolkit" element={<ManagerToolkit />} />
+              <Route path="/team-profiles" element={<TeamProfiles />} />
+              <Route path="/feedback" element={<TeamFeedback />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/team-sentiment" element={<TeamSentiment />} />
+              <Route path="/action-items" element={<ActionItemsPage />} />
+              <Route path="/reports" element={<Reports />} />
+              <Route path="/template-details" element={<TemplateDetails />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </main>
+        <QuickAccessToolbar />
+        <ContextualHelp />
       </div>
     </SidebarProvider>
   );
