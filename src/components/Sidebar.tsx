@@ -20,7 +20,8 @@ import {
   Bell,
   LogOut,
   User,
-  Brain
+  Brain,
+  TrendingUp
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -51,6 +52,11 @@ const menuItems = [
     title: "Notifications",
     icon: Bell,
     url: "/notifications"
+  },
+  {
+    title: "Analytics",
+    icon: TrendingUp,
+    url: "/analytics"
   },
   {
     title: "Settings",

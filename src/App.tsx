@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import ProvideFeedback from "./pages/ProvideFeedback";
 import SelfAssessment from "./pages/SelfAssessment";
 import PeerFeedback from "./pages/PeerFeedback";
+import Analytics from "./pages/Analytics";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Sidebar } from "@/components/Sidebar";
 import { EmployeeDashboard } from "@/components/EmployeeDashboard";
@@ -81,6 +82,7 @@ function AppContent() {
               <Route path="/team-sentiment" element={<TeamSentiment />} />
               <Route path="/action-items" element={<ActionItemsPage />} />
               <Route path="/reports" element={<Reports />} />
+              <Route path="/analytics" element={<Analytics />} />
               <Route path="/template-details" element={<TemplateDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

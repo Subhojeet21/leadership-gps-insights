@@ -17,7 +17,8 @@ const routeLabels: Record<string, string> = {
   '/settings': 'Settings',
   '/team-sentiment': 'Team Sentiment',
   '/action-items': 'Action Items',
-  '/reports': 'Reports'
+  '/reports': 'Reports',
+  '/analytics': 'Analytics'
 };
 
 export function Breadcrumbs() {
