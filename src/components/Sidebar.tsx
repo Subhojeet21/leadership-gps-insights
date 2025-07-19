@@ -19,7 +19,9 @@ import {
   Settings, 
   Bell,
   LogOut,
-  User
+  User,
+  Brain,
+  TrendingUp
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -32,19 +34,29 @@ const menuItems = [
     url: "/",
   },
   {
+    title: "Manager Toolkit",
+    icon: Brain,
+    url: "/manager-toolkit"
+  },
+  {
+    title: "Team Profiles",
+    icon: MessageSquare,
+    url: "/team-profiles"
+  },
+  {
     title: "Team Feedback",
     icon: MessageSquare,
     url: "/feedback"
   },
   {
-    title: "1:1 Sessions",
-    icon: Calendar,
-    url: "/sessions"
-  },
-  {
     title: "Notifications",
     icon: Bell,
     url: "/notifications"
+  },
+  {
+    title: "Analytics",
+    icon: TrendingUp,
+    url: "/analytics"
   },
   {
     title: "Settings",
